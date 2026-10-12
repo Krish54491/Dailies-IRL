@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Dailies IRL",
+  "description": "Ever wanted randomized quests in real life? Look no further this extension allows you to customize google tasks to give you schedule",
+  "version": "1.0",
+  "action": {
+    "default_icon": "Daily Quest Icon.png",
+    "default_popup": "window.html"
+  },
+  "permissions": ["identity"],
+  "host_permissions": ["https://script.googleapis.com/*"],
+  "oauth2": {
+    "client_id": "484917092331-90iq7nst68v64r018be05cvk9qhab14r.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/tasks",
+      "https://www.googleapis.com/auth/script.scriptapp",
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
+  }
+}

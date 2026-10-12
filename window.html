@@ -1,11 +1,17 @@
 <!doctype html>
 <html>
   <head>
-    <script src="background.js"></script>
+    <meta charset="utf-8" />
+    <title>Dailies IRL</title>
+    <style>
+      body { width: 320px; font-family: system-ui, sans-serif; }
+      pre { white-space: pre-wrap; word-break: break-word; }
+    </style>
   </head>
   <body>
-    <div>Hello! Geeks For Geeks !!</div>
-    <div>This is a Chrome Extension!</div>
-    <div>And this is some html</div>
+    <button id="ping">Ping</button>
+    <button id="trigger">Install trigger</button>
+    <pre id="out"></pre>
+    <script src="popup.js"></script>
   </body>
 </html>

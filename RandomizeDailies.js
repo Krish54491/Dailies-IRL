@@ -154,3 +154,24 @@ function createListOfTasks() {
     },
   );
 }
+
+// new code
+// function createTimeDrivenTrigger(period, task) { // takes in string of period(daily, weekly, monthly, e)
+//     ScriptApp.newTrigger(
+// }
+
+// called from the extension through scripts.run to test the connection
+function ping(msg) {
+  // return only plain JSON values, Date objects don't serialize so use ISO strings
+  return {
+    msg: msg,
+    user: Session.getEffectiveUser().getEmail(),
+    at: new Date().toISOString(),
+  };
+}
+
+// checks that a scripts.run call can create a trigger for the calling user
+function installTriggerTest() {
+  ScriptApp.newTrigger("ping").timeBased().everyHours(1).create();
+  return ScriptApp.getProjectTriggers().length;
+}
