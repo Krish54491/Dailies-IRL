@@ -10,7 +10,7 @@
   "permissions": ["identity"],
   "host_permissions": ["https://script.googleapis.com/*"],
   "oauth2": {
-    "client_id": "484917092331-90iq7nst68v64r018be05cvk9qhab14r.apps.googleusercontent.com",
+    "client_id": "484917092331-dv9efk0ll2uma2jl28inn5ott6g8d3fp.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/tasks",
       "https://www.googleapis.com/auth/script.scriptapp",
