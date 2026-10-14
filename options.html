@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dailies IRL settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Dailies IRL settings</h1>
+      <span id="account"></span>
+    </header>
+
+    <main>
+      <div id="status" role="status"></div>
+      <button type="button" id="retry" hidden>Try again</button>
+
+      <form id="settings" novalidate hidden>
+        <section>
+          <h2>General</h2>
+          <label class="field">
+            <span>Time zone</span>
+            <input id="timezone" list="timezones" required autocomplete="off" placeholder="America/Chicago" />
+          </label>
+          <datalist id="timezones"></datalist>
+
+          <label class="field">
+            <span>Day off chance</span>
+            <span class="odds">1 in <input id="dayOffOdds" type="number" min="0" max="100000" step="1" required /> days</span>
+          </label>
+          <p class="hint">No daily tasks are added on a day off. Weekly and monthly categories still run. 0 = never.</p>
+
+          <label class="field">
+            <span>Double tasks chance</span>
+            <span class="odds">1 in <input id="doubleOdds" type="number" min="0" max="100000" step="1" required /> days</span>
+          </label>
+          <p class="hint">Daily categories get twice their count that day. 0 = never.</p>
+        </section>
+
+        <section>
+          <h2>Categories</h2>
+          <p class="hint">Changes apply from the next period. Tasks already added stay.</p>
+          <div id="categories"></div>
+          <p id="noCategories" class="empty" hidden>No categories yet.</p>
+          <button type="button" id="addCategory">Add category</button>
+        </section>
+
+        <div class="savebar">
+          <span id="dirty"></span>
+          <button type="submit" id="save" class="primary">Save</button>
+        </div>
+      </form>
+    </main>
+
+    <template id="categoryTemplate">
+      <details class="category" open>
+        <summary>
+          <span class="cat-title"></span>
+          <span class="cat-meta"></span>
+        </summary>
+        <div class="cat-body">
+          <label class="field">
+            <span>Name</span>
+            <input class="cat-name" required maxlength="60" />
+          </label>
+          <label class="field">
+            <span>Schedule</span>
+            <select class="cat-schedule">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly (1st to end of month)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Tasks per period</span>
+            <input class="cat-count" type="number" min="1" max="100" step="1" required />
+          </label>
+          <p class="hint count-hint"></p>
+          <div class="weekly-only">
+            <label class="field">
+              <span>Week starts</span>
+              <select class="cat-weekStart"></select>
+            </label>
+            <label class="field">
+              <span>Week ends (due)</span>
+              <select class="cat-weekEnd"></select>
+            </label>
+          </div>
+          <label class="check">
+            <input type="checkbox" class="cat-autoDelete" />
+            Auto delete unfinished tasks when the period ends
+          </label>
+
+          <h3>Tasks</h3>
+          <p class="hint big-only">Big: if picked, it's the only task added that day.</p>
+          <ul class="task-list"></ul>
+          <p class="error task-error" hidden>Add at least one task.</p>
+          <div class="cat-actions">
+            <button type="button" class="add-task">Add task</button>
+            <button type="button" class="remove-category danger">Delete category</button>
+          </div>
+        </div>
+      </details>
+    </template>
+
+    <template id="taskTemplate">
+      <li class="task">
+        <input class="task-title" maxlength="200" placeholder="Task name" aria-label="Task name" />
+        <label class="check big-only"><input type="checkbox" class="task-big" /> Big</label>
+        <button type="button" class="remove-task" aria-label="Remove task">✕</button>
+      </li>
+    </template>
+
+    <script src="api.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

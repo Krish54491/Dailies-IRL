@@ -73,8 +73,8 @@
 # Build order
 
 1. test calling Apps Script from the extension (ping + installTriggerTest) <- current step
-2. extension skeleton (manifest, popup, options page)
-3. getConfig/saveConfig + category editor
+2. extension skeleton (manifest, popup, options page) (done)
+3. getConfig/saveConfig + category editor (done, needs testing once OAuth works)
 4. runScheduler for daily categories
 5. installTrigger after sign in
 6. weekly and monthly periods

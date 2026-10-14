@@ -6,12 +6,18 @@
     <style>
       body { width: 320px; font-family: system-ui, sans-serif; }
       pre { white-space: pre-wrap; word-break: break-word; }
+      #settings { width: 100%; padding: 8px; font-size: 14px; }
     </style>
   </head>
   <body>
-    <button id="ping">Ping</button>
-    <button id="trigger">Install trigger</button>
-    <pre id="out"></pre>
+    <button id="settings">Settings</button>
+    <details>
+      <summary>Connection test</summary>
+      <button id="ping">Ping</button>
+      <button id="trigger">Install trigger</button>
+      <pre id="out"></pre>
+    </details>
+    <script src="api.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
