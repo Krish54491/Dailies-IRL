@@ -140,7 +140,16 @@ button:disabled { opacity: 0.6; cursor: default; }
 .task-title { flex: 1; min-width: 0; }
 .remove-task { padding: 4px 8px; }
 
-.error, #status.error { color: var(--danger); }
+.disclosure { border-color: var(--accent); }
+.disclosure p, .disclosure ul { margin: 0 0 12px; }
+.disclosure ul { padding-left: 20px; }
+.disclosure li { margin-bottom: 6px; }
+a { color: var(--accent); }
+
+.data-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 8px; }
+#deleteStatus { color: var(--muted); }
+
+.error, #status.error, #deleteStatus.error { color: var(--danger); }
 .empty { color: var(--muted); }
 #status { margin-top: 16px; min-height: 1.5em; }
 

@@ -82,3 +82,37 @@
 8. history Sheet
 9. getStats + charts tab
 10. move over what's left from RandomizeDailies.js and retire it
+
+# todo
+
+Create two pages:
+
+- Privacy policy: it has to say how you access, use, store and share Google user data. For this app that means:
+  - You create a "Dailies IRL" list and tasks in the user's Google Tasks.
+  - Settings are stored in the user's own Google account, in Apps Script user properties.
+  - Nothing is sent to you or any third party, and nothing is sold.
+  - How to remove everything.
+
+  Also include Google's "Limited Use" statement (the wording comes from Google's API Services User Data Policy).
+
+3. Verify the domain in Search Console with your project owner account, then add it under Authorized domains.
+4. Fill in Data access with a short justification for each sensitive scope:
+   - tasks: "creates the Dailies IRL list and adds the user's randomly picked tasks with due dates"
+   - script.scriptapp: "creates one hourly trigger, owned by the user, that adds tasks on schedule while the browser is closed"
+5. Record a demo video, uploaded unlisted to YouTube, showing:
+   - the full flow, including the complete consent screen in English with the exact scopes
+   - the same app name and logo as on the branding page
+   - each scope being used: saving settings, which creates the trigger, then tasks appearing in Google Tasks
+6. Submit for verification. Brand verification usually takes 24–72 hours. Sensitive-scope review can take longer, and they may email you follow-up questions.
+
+The Chrome Web Store needs its own setup
+
+This is separate from Google's verification:
+
+- a one-time $5 developer registration
+- the Privacy practices tab:
+  - single purpose
+  - why you need identity and script.googleapis.com
+  - "No" to remote code (MV3 allows calling the Apps Script API, as we covered)
+  - the data-use certifications
+- the same privacy policy URL

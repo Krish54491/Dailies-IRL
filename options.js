@@ -138,10 +138,40 @@ function updateEmpty() {
   noCategoriesEl.hidden = categoriesEl.children.length > 0;
 }
 
+// ---------- data use notice ----------
+
+// bump when the notice in options.html changes, so everyone is asked again
+const CONSENT_VERSION = 1;
+const CONSENT_KEY = "consent";
+
+// { version, at } once agreed to this version of the notice, otherwise null
+function getConsent() {
+  try {
+    const consent = JSON.parse(localStorage.getItem(CONSENT_KEY));
+    return consent?.version === CONSENT_VERSION ? consent : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveConsent() {
+  const consent = { version: CONSENT_VERSION, at: new Date().toISOString() };
+  try {
+    localStorage.setItem(CONSENT_KEY, JSON.stringify(consent));
+  } catch {
+    // storage blocked, the notice will just be shown again next time
+  }
+  return consent;
+}
+
+// agreed during this visit, kept here too in case storage is blocked
+let consent = getConsent();
+
 // ---------- reading and validating ----------
 
 function readForm() {
   return {
+    consent, // saveConfig refuses to store anything without it
     timezone: timezoneInput.value.trim(),
     dayOffOdds: Number(dayOffInput.value),
     doubleOdds: Number(doubleInput.value),
@@ -337,6 +367,41 @@ window.addEventListener("beforeunload", (e) => {
 
 retryBtn.addEventListener("click", load);
 
+const disclosureEl = document.getElementById("disclosure");
+document.getElementById("agree").addEventListener("click", () => {
+  consent = saveConsent();
+  disclosureEl.hidden = true;
+  load();
+});
+
+const yourDataEl = document.getElementById("yourData");
+const deleteBtn = document.getElementById("deleteData");
+const deleteListBox = document.getElementById("deleteList");
+const deleteStatusEl = document.getElementById("deleteStatus");
+
+deleteBtn.addEventListener("click", async () => {
+  const alsoList = deleteListBox.checked;
+  const what = alsoList
+    ? 'your settings, the hourly timer, and the "Dailies IRL" list with every task in it'
+    : "your settings and the hourly timer";
+  if (!confirm(`Delete ${what}? This can't be undone.`)) return;
+  deleteBtn.disabled = true;
+  deleteStatusEl.textContent = "Deleting…";
+  deleteStatusEl.classList.remove("error");
+  try {
+    await runScript("deleteMyData", [alsoList]);
+    render(defaultConfig()); // nothing is stored any more, saving again starts fresh
+    setDirty(false);
+    deleteListBox.checked = false;
+    deleteStatusEl.textContent = "Your data was deleted.";
+  } catch (err) {
+    deleteStatusEl.textContent = `Couldn't delete: ${err.message}`;
+    deleteStatusEl.classList.add("error");
+  } finally {
+    deleteBtn.disabled = false;
+  }
+});
+
 // ---------- startup ----------
 
 const timezoneList = document.getElementById("timezones");
@@ -352,6 +417,7 @@ async function load() {
     accountEl.textContent = email ? `Signed in as ${email}` : "";
     render(config ?? defaultConfig());
     form.hidden = false;
+    yourDataEl.hidden = false;
     setStatus("");
     // a first-time user's defaults aren't saved yet
     setDirty(!config);
@@ -361,4 +427,6 @@ async function load() {
   }
 }
 
-load();
+// nothing signs in or reaches Google until the notice has been agreed to
+if (consent) load();
+else disclosureEl.hidden = false;

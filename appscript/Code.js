@@ -36,10 +36,12 @@ function assignRandomTask(
   weekEnd = 0,
   bigTasks,
   weekStart,
+  notes,
 ) {
   // count is how many tasks to assign from listOfTasks
   // freqType is monthly, weekly, daily : due dates are based on it
   // timezone is to make sure it's for the correct timezone
+  // notes is the taskMarker_ that lets auto delete find these tasks later
 
   // Get the current date and time
   // set due date based on type
@@ -61,6 +63,7 @@ function assignRandomTask(
         {
           title: task,
           due: dueDateISO,
+          notes: notes,
         },
         taskListId,
       );
@@ -73,6 +76,7 @@ function assignRandomTask(
       {
         title: task,
         due: dueDateISO,
+        notes: notes,
       },
       taskListId,
     );
@@ -90,6 +94,7 @@ function assignRandomTask(
       weekEnd,
       bigTasks,
       weekStart,
+      notes,
     ); // recursively call to add every task
   }
 }
@@ -176,6 +181,7 @@ function runScheduler() {
       .forEach((category) => {
         const key = periodKey(category, tz);
         if (!key || lastRun[category.id] === key) return;
+        if (category.autoDelete) deleteUnfinished_(taskListId, category.id, key);
         assignRandomTask(
           taskListId,
           category.count,
@@ -185,6 +191,7 @@ function runScheduler() {
           category.weekEnd,
           [], // big tasks are daily only
           category.weekStart,
+          taskMarker_(category, key),
         );
         lastRun[category.id] = key;
         props.setProperty("lastRun", JSON.stringify(lastRun)); // save after each, in case the run dies midway
@@ -208,6 +215,8 @@ function assignDailies(config, lastRun, taskListId) {
     !dayOff && config.doubleOdds > 0 && Math.random() < 1 / config.doubleOdds;
 
   dailies.forEach((category) => {
+    // yesterday is over even on a day off, so its leftovers still go
+    if (category.autoDelete) deleteUnfinished_(taskListId, category.id, today);
     if (!dayOff) {
       assignRandomTask(
         taskListId,
@@ -217,6 +226,8 @@ function assignDailies(config, lastRun, taskListId) {
         tz,
         0,
         category.tasks.filter((t) => t.big).map((t) => t.title),
+        undefined, // weekStart, weekly only
+        taskMarker_(category, today),
       );
     }
     lastRun[category.id] = today; // a day off still counts as done, so it isn't rerolled next hour
@@ -225,4 +236,56 @@ function assignDailies(config, lastRun, taskListId) {
       JSON.stringify(lastRun),
     );
   });
+}
+
+// ---------- auto delete ----------
+
+// goes in each added task's notes: a readable first line, then the tag auto delete matches on
+// (by category id, so renaming a category doesn't lose its tasks)
+function taskMarker_(category, key) {
+  return `Dailies IRL · ${category.name}\n#dailies-irl:${category.id}:${key}`;
+}
+const MARKER_RE = /#dailies-irl:([A-Za-z0-9-]+):(\S+)/;
+
+// deletes this category's unfinished tasks from earlier periods, finished ones are never touched
+// tasks added before markers existed have no tag, so they're left alone too
+function deleteUnfinished_(taskListId, categoryId, currentKey) {
+  const ids = [];
+  let pageToken;
+  do {
+    const page = Tasks.Tasks.list(taskListId, {
+      showCompleted: false,
+      maxResults: 100,
+      pageToken: pageToken,
+    });
+    (page.items || []).forEach((task) => {
+      const match = MARKER_RE.exec(task.notes || "");
+      if (match && match[1] === categoryId && match[2] !== currentKey) ids.push(task.id);
+    });
+    pageToken = page.nextPageToken;
+  } while (pageToken);
+  // deleted after listing so removing tasks doesn't shift the pages being read
+  ids.forEach((id) => Tasks.Tasks.remove(taskListId, id));
+}
+
+// ---------- delete my data ----------
+
+// called from the settings page: removes everything Dailies IRL keeps for this user
+// deleteList also removes the "Dailies IRL" list (and every task in it) from Google Tasks
+function deleteMyData(deleteList) {
+  const lock = LockService.getUserLock();
+  lock.waitLock(10000); // waits out a scheduler run so it can't write anything back after
+  try {
+    // only this user's triggers for this project, so this is just the hourly scheduler
+    ScriptApp.getProjectTriggers().forEach((t) => ScriptApp.deleteTrigger(t));
+    PropertiesService.getUserProperties().deleteAllProperties();
+    if (deleteList) {
+      (Tasks.Tasklists.list().items || [])
+        .filter((list) => list.title === "Dailies IRL")
+        .forEach((list) => Tasks.Tasklists.remove(list.id));
+    }
+  } finally {
+    lock.releaseLock();
+  }
+  return "deleted";
 }

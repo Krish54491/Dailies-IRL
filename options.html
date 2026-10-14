@@ -15,6 +15,48 @@
     </header>
 
     <main>
+      <!-- shown before anything signs in or is saved, required by Chrome Web Store and Google API policy -->
+      <section id="disclosure" class="disclosure" hidden>
+        <h2>Before you start</h2>
+        <p>Here's exactly what Dailies IRL does with your data:</p>
+        <ul>
+          <li>
+            Saves your settings (time zone, categories and task names) in
+            <strong>your own Google account</strong>, using Google Apps Script.
+            Only you can see them.
+          </li>
+          <li>
+            Creates a "Dailies IRL" list in Google Tasks and adds tasks from
+            your settings to it. If you turn on Auto delete for a category, it
+            deletes that category's unfinished tasks once their period is over.
+          </li>
+          <li>
+            Creates one hourly timer in your Google account, so tasks are added
+            even when Chrome is closed.
+          </li>
+          <li>
+            Shows your email address so you know which account you're signed in
+            with.
+          </li>
+        </ul>
+        <p>
+          Nothing is sent to the developer or anyone else, and nothing is sold
+          or used for ads. You can delete everything at any time from this page.
+        </p>
+        <!-- TODO: point at the hosted privacy policy once the domain is set up -->
+        <p>
+          <a
+            href="https://https://krish544.com/dailies-irl/privacy-policy"
+            target="_blank"
+            rel="noopener"
+            >Read the full privacy policy</a
+          >
+        </p>
+        <button type="button" id="agree" class="primary">
+          Agree and sign in
+        </button>
+      </section>
+
       <div id="status" role="status"></div>
       <button type="button" id="retry" hidden>Try again</button>
 
@@ -23,26 +65,61 @@
           <h2>General</h2>
           <label class="field">
             <span>Time zone</span>
-            <input id="timezone" list="timezones" required autocomplete="off" placeholder="America/Chicago" />
+            <input
+              id="timezone"
+              list="timezones"
+              required
+              autocomplete="off"
+              placeholder="America/Chicago"
+            />
           </label>
           <datalist id="timezones"></datalist>
 
           <label class="field">
             <span>Day off chance</span>
-            <span class="odds">1 in <input id="dayOffOdds" type="number" min="0" max="100000" step="1" required /> days</span>
+            <span class="odds"
+              >1 in
+              <input
+                id="dayOffOdds"
+                type="number"
+                min="0"
+                max="100000"
+                step="1"
+                required
+              />
+              days</span
+            >
           </label>
-          <p class="hint">No daily tasks are added on a day off. Weekly and monthly categories still run. 0 = never.</p>
+          <p class="hint">
+            No daily tasks are added on a day off. Weekly and monthly categories
+            still run. 0 = never.
+          </p>
 
           <label class="field">
             <span>Double tasks chance</span>
-            <span class="odds">1 in <input id="doubleOdds" type="number" min="0" max="100000" step="1" required /> days</span>
+            <span class="odds"
+              >1 in
+              <input
+                id="doubleOdds"
+                type="number"
+                min="0"
+                max="100000"
+                step="1"
+                required
+              />
+              days</span
+            >
           </label>
-          <p class="hint">Daily categories get twice their count that day. 0 = never.</p>
+          <p class="hint">
+            Daily categories get twice their count that day. 0 = never.
+          </p>
         </section>
 
         <section>
           <h2>Categories</h2>
-          <p class="hint">Changes apply from the next period. Tasks already added stay.</p>
+          <p class="hint">
+            Changes apply from the next period. Tasks already added stay.
+          </p>
           <div id="categories"></div>
           <p id="noCategories" class="empty" hidden>No categories yet.</p>
           <button type="button" id="addCategory">Add category</button>
@@ -53,6 +130,32 @@
           <button type="submit" id="save" class="primary">Save</button>
         </div>
       </form>
+
+      <!-- outside the form so it never counts as an unsaved change -->
+      <section id="yourData" hidden>
+        <h2>Your data</h2>
+        <p class="hint">
+          Deletes your settings and turns off the hourly timer. To also remove
+          Dailies IRL's access to your Google account, go to
+          <a
+            href="https://myaccount.google.com/connections"
+            target="_blank"
+            rel="noopener"
+            >your Google account connections</a
+          >.
+        </p>
+        <label class="check">
+          <input type="checkbox" id="deleteList" />
+          Also delete the "Dailies IRL" list and every task in it from Google
+          Tasks
+        </label>
+        <div class="data-actions">
+          <span id="deleteStatus" role="status"></span>
+          <button type="button" id="deleteData" class="danger">
+            Delete my data
+          </button>
+        </div>
+      </section>
     </main>
 
     <template id="categoryTemplate">
@@ -76,7 +179,14 @@
           </label>
           <label class="field">
             <span>Tasks per period</span>
-            <input class="cat-count" type="number" min="1" max="100" step="1" required />
+            <input
+              class="cat-count"
+              type="number"
+              min="1"
+              max="100"
+              step="1"
+              required
+            />
           </label>
           <p class="hint count-hint"></p>
           <div class="weekly-only">
@@ -88,13 +198,23 @@
               <span>Week ends (due)</span>
               <select class="cat-weekEnd"></select>
             </label>
-            <p class="hint">If the day it's due would be in the past, it will start on the next start day.</p>
-            <p class="hint">If the start and end day are the same, it's a full week: tasks are due on that day the following week.</p>
+            <p class="hint">
+              If the day it's due would be in the past, it will start on the
+              next start day.
+            </p>
+            <p class="hint">
+              If the start and end day are the same, it's a full week: tasks are
+              due on that day the following week.
+            </p>
           </div>
           <label class="check">
             <input type="checkbox" class="cat-autoDelete" />
             Auto delete unfinished tasks when the period ends
           </label>
+          <p class="hint">
+            They're deleted when the next period starts. Finished tasks are
+            never deleted.
+          </p>
 
           <h3>Tasks</h3>
           <ul class="task-list"></ul>
@@ -117,7 +237,9 @@
               <button type="button" class="add-task">Add task</button>
               <button type="button" class="paste-tasks">Quick import</button>
             </span>
-            <button type="button" class="remove-category danger">Delete category</button>
+            <button type="button" class="remove-category danger">
+              Delete category
+            </button>
           </div>
         </div>
       </details>
@@ -125,17 +247,28 @@
 
     <template id="taskTemplate">
       <li class="task">
-        <input class="task-title" maxlength="200" placeholder="Task name" aria-label="Task name" />
+        <input
+          class="task-title"
+          maxlength="200"
+          placeholder="Task name"
+          aria-label="Task name"
+        />
         <span class="big-only big-field">
-          <label class="check"><input type="checkbox" class="task-big" /> Big</label>
+          <label class="check"
+            ><input type="checkbox" class="task-big" /> Big</label
+          >
           <button
             type="button"
             class="info"
             data-tip="Big: if picked, it's the only task added that day."
             aria-label="Big: if picked, it's the only task added that day."
-          >i</button>
+          >
+            i
+          </button>
         </span>
-        <button type="button" class="remove-task" aria-label="Remove task">✕</button>
+        <button type="button" class="remove-task" aria-label="Remove task">
+          ✕
+        </button>
       </li>
     </template>
 

@@ -63,6 +63,7 @@ function saveConfig(config) {
     doubleOdds: clean.doubleOdds,
     categoryOrder: clean.categories.map((c) => c.id),
     categoryChunks: categoryChunks,
+    consent: clean.consent, // record of which data use notice the user agreed to, and when
   });
   if (byteLength_(values[SETTINGS_KEY]) > MAX_PROPERTY_BYTES) {
     throw new Error("Too many categories, remove some and try again");
@@ -159,6 +160,15 @@ function unpackCategory_(packed) {
 // never trust what the client sends, rebuild the config from checked values
 function validateConfig_(config) {
   if (!config || typeof config !== "object") throw new Error("Missing config");
+  // nothing is saved until the user has agreed to the data use notice on the settings page
+  const consent = config.consent || {};
+  if (
+    !Number.isInteger(consent.version) ||
+    consent.version < 1 ||
+    isNaN(Date.parse(consent.at))
+  ) {
+    throw new Error("Agree to how Dailies IRL uses your data before saving");
+  }
   const timezone = String(config.timezone || "").trim();
   if (!/^[A-Za-z0-9_+\-]+(\/[A-Za-z0-9_+\-]+)*$/.test(timezone)) {
     throw new Error("Invalid time zone");
@@ -203,6 +213,7 @@ function validateConfig_(config) {
     dayOffOdds: intInRange_(config.dayOffOdds, 0, 100000, "Day off chance"),
     doubleOdds: intInRange_(config.doubleOdds, 0, 100000, "Double tasks chance"),
     categories: categories,
+    consent: { version: consent.version, at: new Date(consent.at).toISOString() },
   };
 }
 

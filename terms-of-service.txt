@@ -1,0 +1,163 @@
+DAILIES IRL - TERMS OF SERVICE
+
+Effective date: [EFFECTIVE DATE]
+Last updated: [EFFECTIVE DATE]
+
+These terms are an agreement between you and Krish Bharal ("we", "us"), the
+developer of Dailies IRL. By installing or using the Dailies IRL Chrome
+extension (together with the Google Apps Script project that runs its
+schedule, "Dailies IRL" or "the service"), you agree to these terms. If you
+do not agree, do not install or use Dailies IRL.
+
+
+1. WHAT DAILIES IRL DOES
+
+Dailies IRL lets you write categories of tasks and adds tasks picked at
+random from them to a "Dailies IRL" list in your Google Tasks, on a daily,
+weekly or monthly schedule that you choose. It runs in your own Google
+account using Google's services.
+
+
+2. WHO CAN USE IT
+
+You must be at least 13 years old, or the minimum age to have a Google
+account in your country if that is higher, and you must have your own
+Google account. You may only connect a Google account that you own or are
+allowed to use.
+
+
+3. YOUR GOOGLE ACCOUNT AND GOOGLE'S TERMS
+
+Dailies IRL works through your Google account and Google services, including
+Google Tasks, Google Apps Script and Google sign-in. Your use of those
+services is also covered by Google's Terms of Service
+(https://policies.google.com/terms) and Google's Privacy Policy
+(https://policies.google.com/privacy). You must follow those terms and all
+laws that apply to you when you use Dailies IRL.
+
+You are responsible for keeping your Google account secure.
+
+
+4. PERMISSIONS AND WHAT DAILIES IRL DOES IN YOUR ACCOUNT
+
+When you sign in, you allow Dailies IRL to:
+  - create a "Dailies IRL" list in your Google Tasks and add tasks to it;
+  - delete unfinished tasks it created in that list, only if you turn on
+    "Auto delete unfinished tasks" for a category;
+  - create one hourly timer (an Apps Script trigger) in your account so tasks
+    are added on schedule;
+  - show your email address on the settings page.
+
+How your data is handled is explained in the Dailies IRL Privacy Policy
+([PRIVACY POLICY URL]), which is part of these terms.
+
+You can stop all of this at any time: delete your data from the settings
+page, remove Dailies IRL's access at https://myaccount.google.com/connections,
+and uninstall the extension.
+
+
+5. YOUR CONTENT
+
+The categories and task names you write belong to you. You give us only the
+permission needed to store them in your own Google account and add them to
+your Google Tasks, so that Dailies IRL can work. We do not claim any
+ownership of them.
+
+Do not use Dailies IRL to store or create anything illegal.
+
+
+6. ACCEPTABLE USE
+
+You agree not to:
+  - use Dailies IRL in a way that breaks any law or Google's terms;
+  - try to get into another person's account or data;
+  - overload, attack, disrupt or try to get around the limits of Dailies IRL
+    or the Google services it uses;
+  - call the Dailies IRL Apps Script project from anything other than the
+    official extension, or copy its OAuth client credentials;
+  - copy, sell or publish Dailies IRL, or a changed version of it, as your
+    own product, except as allowed by any open-source license we publish
+    the code under.
+
+
+7. IT'S FREE, AND IT CAN CHANGE
+
+Dailies IRL is currently free. We may add, change or remove features, or
+stop offering Dailies IRL, at any time and without notice. Dailies IRL also
+depends on Google services and their limits (for example, Apps Script quotas
+and the timing of triggers), which we do not control. Tasks may sometimes be
+added late, be skipped, or not be added at all.
+
+
+8. NO WARRANTY
+
+Dailies IRL is a hobby project provided "AS IS" and "AS AVAILABLE", without
+warranties of any kind, express or implied, including any warranties of
+merchantability, fitness for a particular purpose, and non-infringement. We
+do not promise that Dailies IRL will be uninterrupted, error-free or secure,
+or that it will keep or add any task correctly.
+
+Dailies IRL is a tool to help you build habits. It is not medical, health,
+fitness, financial or other professional advice. You choose the tasks you
+write, and you decide whether and how to do them. Use your own judgment and
+do only what is safe for you.
+
+Keep your own copy of anything important. We are not responsible for lost
+tasks or settings.
+
+
+9. LIMITATION OF LIABILITY
+
+To the fullest extent allowed by law, Krish Bharal will not be liable for
+any indirect, incidental, special, consequential or punitive damages, or any
+loss of data, tasks, time, profits or goodwill, arising from or related to
+your use of, or inability to use, Dailies IRL. In any case, our total
+liability for any claim related to Dailies IRL will not be more than the
+amount you paid us to use it in the 12 months before the claim, which is
+zero if you have not paid anything.
+
+Some places do not allow some of these limits, so they may not all apply to
+you. Nothing in these terms limits any rights you have under the law that
+cannot be waived.
+
+
+10. ENDING USE
+
+You can stop using Dailies IRL at any time by following the steps in
+section 4. We may stop providing Dailies IRL to you, or block access, if
+you break these terms or if we have to for legal or security reasons.
+Sections 5, 8, 9, 11 and 12 still apply after you stop using Dailies IRL.
+
+
+11. GOVERNING LAW
+
+These terms are governed by the laws of [STATE / COUNTRY], without regard
+to its conflict-of-law rules, except where the law where you live gives you
+the right to use your local laws or courts.
+
+
+12. CHANGES TO THESE TERMS
+
+We may update these terms. The new version will be posted at this address
+with a new "Last updated" date. If a change is important, we will also tell
+you inside the extension. If you keep using Dailies IRL after the change
+takes effect, you accept the new terms.
+
+
+13. GENERAL
+
+If any part of these terms can't be enforced, the rest still applies. If we
+don't enforce a part of these terms, that doesn't mean we give up the right
+to enforce it later. These terms and the Privacy Policy are the whole
+agreement between you and us about Dailies IRL.
+
+
+14. CONTACT
+
+Krish Bharal
+Email: [CONTACT EMAIL]
+Website: [HOMEPAGE URL]
+
+
+Dailies IRL is not made, endorsed or sponsored by Google. Google, Google
+Tasks, Chrome and Google Apps Script are trademarks of Google LLC.
