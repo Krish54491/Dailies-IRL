@@ -16,9 +16,13 @@ async function show(promise) {
   }
 }
 
+// testing buttons, comment these out with the Testing section in window.html before publishing
 // document.getElementById("ping").onclick = () =>
 //   show(runScript("ping", ["hello"]));
 // document.getElementById("run").onclick = () => show(runScript("runScheduler"));
 // // clears lastRun so "Run scheduler now" adds every category again
 // document.getElementById("reset").onclick = () =>
 //   show(runScript("resetLastRun"));
+// // adds 3 test tasks, checks only the old unfinished one is auto deleted, then removes them
+// document.getElementById("testAutoDelete").onclick = () =>
+//   show(runScript("testAutoDelete"));

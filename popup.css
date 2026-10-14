@@ -68,4 +68,7 @@ button:focus-visible, .button:focus-visible, .theme input:focus-visible + span {
 }
 .theme input:checked + span { background: var(--bg); color: var(--text); font-weight: 600; }
 
+.testing { margin-top: 16px; font-size: 12px; color: var(--muted); }
+.testing summary { cursor: pointer; }
+.testing button { margin-top: 6px; padding: 6px 10px; font-size: 12px; }
 pre { white-space: pre-wrap; word-break: break-word; }

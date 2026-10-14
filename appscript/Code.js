@@ -289,3 +289,69 @@ function deleteMyData(deleteList) {
   }
   return "deleted";
 }
+
+// ---------- testing ----------
+
+// checks auto delete against your real "Dailies IRL" list, run it from the Apps Script editor
+// or the popup's Testing section
+// adds 3 test tasks for a fake category, runs the real deleteUnfinished_, then cleans up:
+//   old period, unfinished  -> should be deleted
+//   old period, finished    -> should stay (finished tasks are never deleted)
+//   this period, unfinished -> should stay (its period isn't over)
+function testAutoDelete() {
+  const taskListId = getTaskListId();
+  const category = { id: "autodelete-test", name: "Auto delete test" };
+  const today = Utilities.formatDate(new Date(), "UTC", "yyyy-MM-dd");
+  const add = (label, key, finished) =>
+    Tasks.Tasks.insert(
+      {
+        title: `[Dailies IRL test] ${label}`,
+        notes: taskMarker_(category, key),
+        status: finished ? "completed" : "needsAction",
+      },
+      taskListId,
+    ).id;
+  const ids = {
+    oldUnfinished: add("old, unfinished", "2000-01-01", false),
+    oldFinished: add("old, finished", "2000-01-01", true),
+    currentUnfinished: add("this period, unfinished", today, false),
+  };
+
+  try {
+    deleteUnfinished_(taskListId, category.id, today);
+
+    // finished tasks are hidden, so ask for those too
+    const left = {};
+    let pageToken;
+    do {
+      const page = Tasks.Tasks.list(taskListId, {
+        showCompleted: true,
+        showHidden: true,
+        maxResults: 100,
+        pageToken: pageToken,
+      });
+      (page.items || []).forEach((task) => {
+        left[task.id] = true;
+      });
+      pageToken = page.nextPageToken;
+    } while (pageToken);
+
+    const results = {
+      "old unfinished was deleted": !left[ids.oldUnfinished],
+      "old finished was kept": Boolean(left[ids.oldFinished]),
+      "this period's unfinished was kept": Boolean(left[ids.currentUnfinished]),
+    };
+    const passed = Object.values(results).every(Boolean);
+    Logger.log(`${passed ? "PASSED" : "FAILED"} ${JSON.stringify(results, null, 2)}`);
+    return { passed: passed, results: results };
+  } finally {
+    // removes whatever test tasks are left, even if something above threw
+    Object.values(ids).forEach((id) => {
+      try {
+        Tasks.Tasks.remove(taskListId, id);
+      } catch (e) {
+        // already deleted by the test
+      }
+    });
+  }
+}
