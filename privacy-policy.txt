@@ -1,7 +1,7 @@
 DAILIES IRL - PRIVACY POLICY
 
-Effective date: [EFFECTIVE DATE]
-Last updated: [EFFECTIVE DATE]
+Effective date: October 14, 2026
+Last updated: October 14, 2026
 
 Dailies IRL ("Dailies IRL", "the extension", "we", "us") is a Chrome extension
 made by Krish Bharal, an independent developer. It adds tasks that you write,
@@ -211,7 +211,7 @@ To delete your data:
 You can also see and delete the hourly timer yourself under "My Triggers"
 at https://script.google.com/home/triggers.
 
-If you would like help deleting your data, email [CONTACT EMAIL] and we will
+If you would like help deleting your data, email support@krish544.com and we will
 explain how. Since we cannot access your data ourselves, the steps above are
 how it is deleted.
 
@@ -237,7 +237,7 @@ Limited Use requirements.
 Dailies IRL is not directed to children under 13 (or the minimum age to
 have a Google account in your country) and does not knowingly collect data
 from them. Using it requires your own Google account. If you believe a child
-has used Dailies IRL, contact [CONTACT EMAIL] and we will help remove the
+has used Dailies IRL, contact support@krish544.com and we will help remove the
 data.
 
 
@@ -249,7 +249,7 @@ object to how it is used. With Dailies IRL you can do all of this yourself:
 view and change everything on the settings page, delete it as described in
 section 8, and keep your tasks in Google Tasks. We do not sell or "share"
 personal information for advertising. For any request or question, contact
-[CONTACT EMAIL].
+support@krish544.com.
 
 
 12. CHANGES TO THIS POLICY
@@ -263,7 +263,7 @@ extension and ask for your permission before it does.
 13. CONTACT
 
 Krish Bharal
-Email: krishbharal@gmail.com
+Email: support@krish544.com
 Website: https://krish544.com/dailies-irl
 
 

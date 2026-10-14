@@ -1,7 +1,7 @@
 DAILIES IRL - TERMS OF SERVICE
 
-Effective date: [EFFECTIVE DATE]
-Last updated: [EFFECTIVE DATE]
+Effective date: October 14, 2026
+Last updated: October 14, 2026
 
 These terms are an agreement between you and Krish Bharal ("we", "us"), the
 developer of Dailies IRL. By installing or using the Dailies IRL Chrome
@@ -49,7 +49,7 @@ When you sign in, you allow Dailies IRL to:
   - show your email address on the settings page.
 
 How your data is handled is explained in the Dailies IRL Privacy Policy
-([PRIVACY POLICY URL]), which is part of these terms.
+(https://krish544.com/dailies-irl/privacy-policy), which is part of these terms.
 
 You can stop all of this at any time: delete your data from the settings
 page, remove Dailies IRL's access at https://myaccount.google.com/connections,
@@ -126,12 +126,12 @@ cannot be waived.
 You can stop using Dailies IRL at any time by following the steps in
 section 4. We may stop providing Dailies IRL to you, or block access, if
 you break these terms or if we have to for legal or security reasons.
-Sections 5, 8, 9, 11 and 12 still apply after you stop using Dailies IRL.
+Sections 5, 8, 9, 11 and 13 still apply after you stop using Dailies IRL.
 
 
 11. GOVERNING LAW
 
-These terms are governed by the laws of [STATE / COUNTRY], without regard
+These terms are governed by the laws of State of Texas, United States, without regard
 to its conflict-of-law rules, except where the law where you live gives you
 the right to use your local laws or courts.
 
@@ -155,8 +155,8 @@ agreement between you and us about Dailies IRL.
 14. CONTACT
 
 Krish Bharal
-Email: [CONTACT EMAIL]
-Website: [HOMEPAGE URL]
+Email: support@krish544.com
+Website: https://krish544.com/dailies-irl
 
 
 Dailies IRL is not made, endorsed or sponsored by Google. Google, Google
