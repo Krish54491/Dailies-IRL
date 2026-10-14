@@ -35,6 +35,7 @@ function assignRandomTask(
   timezone,
   weekEnd = 0,
   bigTasks,
+  weekStart,
 ) {
   // count is how many tasks to assign from listOfTasks
   // freqType is monthly, weekly, daily : due dates are based on it
@@ -42,7 +43,7 @@ function assignRandomTask(
 
   // Get the current date and time
   // set due date based on type
-  const dueDateISO = getDueDate(freqType, timezone, weekEnd);
+  const dueDateISO = getDueDate(freqType, timezone, weekEnd, weekStart);
   const tasksAdded = new Set(); // no recurring tasks unless count > listOfTasks.length
   const length = Math.min(count, new Set(listOfTasks).size);
   if (length === 0) return; // only big tasks left for the extras
@@ -88,11 +89,12 @@ function assignRandomTask(
       timezone,
       weekEnd,
       bigTasks,
+      weekStart,
     ); // recursively call to add every task
   }
 }
 
-function getDueDate(freqType, timezone, weekEnd = 0) {
+function getDueDate(freqType, timezone, weekEnd = 0, weekStart) {
   const now = new Date();
   const type = freqType.toLowerCase();
   // the user's calendar date, not the server's (Apps Script runs in GMT)
@@ -105,7 +107,9 @@ function getDueDate(freqType, timezone, weekEnd = 0) {
   } else if (type === "weekly") {
     // "u" is 1 = Monday ... 7 = Sunday, % 7 makes Sunday 0 to match weekEnd
     const today = Number(Utilities.formatDate(now, timezone, "u")) % 7;
-    const daysUntilEnd = (weekEnd - today + 7) % 7;
+    let daysUntilEnd = (weekEnd - today + 7) % 7;
+    // same start and end day is a full week, so on the start day it's due next week
+    if (daysUntilEnd === 0 && weekStart === weekEnd) daysUntilEnd = 7;
     dueDate = new Date(Date.UTC(year, month - 1, day + daysUntilEnd));
   } else if (type === "monthly") {
     // day 0 of next month is the last day of this month
@@ -125,7 +129,11 @@ function periodKey(category, timezone) {
   // weekly: 0 = Sunday ... 6 = Saturday, ranges can wrap (Fri–Mon)
   const weekday = Number(Utilities.formatDate(now, timezone, "u")) % 7;
   const daysSinceStart = (weekday - category.weekStart + 7) % 7;
-  const span = (category.weekEnd - category.weekStart + 7) % 7;
+  // same start and end day is a full week (Mon–next Mon), not a single day
+  const span =
+    category.weekStart === category.weekEnd
+      ? 7
+      : (category.weekEnd - category.weekStart + 7) % 7;
   if (daysSinceStart > span) return null; // between end day and next start day
   const [year, month, day] = today.split("-").map(Number);
   // the week is named after the date it started
@@ -175,8 +183,9 @@ function runScheduler() {
           category.schedule,
           tz,
           category.weekEnd,
-          [],
-        ); // big tasks are daily only
+          [], // big tasks are daily only
+          category.weekStart,
+        );
         lastRun[category.id] = key;
         props.setProperty("lastRun", JSON.stringify(lastRun)); // save after each, in case the run dies midway
       });
