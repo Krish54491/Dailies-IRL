@@ -12,5 +12,7 @@ async function show(promise) {
 
 document.getElementById("ping").onclick = () =>
   show(runScript("ping", ["hello"]));
-document.getElementById("trigger").onclick = () =>
-  show(runScript("installTriggerTest"));
+document.getElementById("run").onclick = () => show(runScript("runScheduler"));
+// clears lastRun so "Run scheduler now" adds every category again
+document.getElementById("reset").onclick = () =>
+  show(runScript("resetLastRun"));

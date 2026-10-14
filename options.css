@@ -100,6 +100,46 @@ button:disabled { opacity: 0.6; cursor: default; }
 .cat-body { padding: 4px 12px 12px; border-top: 1px solid var(--border); }
 .cat-actions { display: flex; justify-content: space-between; margin-top: 8px; }
 
+/* small circled "i" that shows its data-tip on hover or keyboard focus */
+.info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  margin-left: 4px;
+  border-radius: 50%;
+  font: italic 600 12px/1 Georgia, serif;
+  color: var(--muted);
+  vertical-align: middle;
+  cursor: help;
+}
+.big-field { display: flex; align-items: center; }
+.big-field .check { margin: 0; }
+.info::after {
+  content: attr(data-tip);
+  position: absolute;
+  /* opens to the left so it never runs off the right edge of the row */
+  right: 0;
+  bottom: calc(100% + 6px);
+  width: max-content;
+  max-width: 240px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--text);
+  color: var(--bg);
+  font: 400 12px/1.4 system-ui, sans-serif;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+  z-index: 1;
+}
+.info:hover::after,
+.info:focus-visible::after { opacity: 1; }
+
 .category:not([data-schedule="weekly"]) .weekly-only,
 .category:not([data-schedule="daily"]) .big-only { display: none; }
 

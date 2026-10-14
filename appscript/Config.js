@@ -100,6 +100,7 @@ function saveConfig(config) {
   } finally {
     lock.releaseLock();
   }
+  ensureTrigger(); // first save turns on the hourly scheduler, nothing else for the user to do
   return getConfig();
 }
 

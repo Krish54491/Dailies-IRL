@@ -93,7 +93,6 @@
           </label>
 
           <h3>Tasks</h3>
-          <p class="hint big-only">Big: if picked, it's the only task added that day.</p>
           <ul class="task-list"></ul>
           <p class="error task-error" hidden>Add at least one task.</p>
           <div class="cat-actions">
@@ -107,7 +106,15 @@
     <template id="taskTemplate">
       <li class="task">
         <input class="task-title" maxlength="200" placeholder="Task name" aria-label="Task name" />
-        <label class="check big-only"><input type="checkbox" class="task-big" /> Big</label>
+        <span class="big-only big-field">
+          <label class="check"><input type="checkbox" class="task-big" /> Big</label>
+          <button
+            type="button"
+            class="info"
+            data-tip="Big: if picked, it's the only task added that day."
+            aria-label="Big: if picked, it's the only task added that day."
+          >i</button>
+        </span>
         <button type="button" class="remove-task" aria-label="Remove task">✕</button>
       </li>
     </template>
