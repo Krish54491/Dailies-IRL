@@ -1,0 +1,40 @@
+/* colours shared by the popup and settings page
+   follows the system setting unless theme.js sets data-theme="light" or "dark" on <html> */
+:root {
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --text: #1d1d1b;
+  --muted: #6b6b66;
+  --border: #dcdcd6;
+  --accent: #2f6fdb;
+  --accent-hover: #255cbc;
+  --accent-text: #ffffff;
+  --danger: #c0392b;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1a19;
+    --surface: #242422;
+    --text: #ececea;
+    --muted: #a3a39d;
+    --border: #3a3a37;
+    --accent: #6a9cf0;
+    --accent-hover: #86affa;
+    --accent-text: #10131a;
+    --danger: #e57366;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1a19;
+  --surface: #242422;
+  --text: #ececea;
+  --muted: #a3a39d;
+  --border: #3a3a37;
+  --accent: #6a9cf0;
+  --accent-hover: #86affa;
+  --accent-text: #10131a;
+  --danger: #e57366;
+  color-scheme: dark;
+}

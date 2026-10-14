@@ -199,6 +199,7 @@ function validate() {
 // ---------- events ----------
 
 form.addEventListener("input", (e) => {
+  if (e.target.classList.contains("paste-text")) return; // nothing changes until "Add tasks"
   if (e.target === timezoneInput) timezoneInput.setCustomValidity("");
   setDirty(true);
   const card = e.target.closest(".category");
@@ -206,6 +207,7 @@ form.addEventListener("input", (e) => {
 });
 form.addEventListener("change", (e) => {
   // selects and checkboxes
+  if (e.target.classList.contains("paste-text")) return;
   setDirty(true);
   const card = e.target.closest(".category");
   if (card) refreshCategory(card);
@@ -216,6 +218,18 @@ form.addEventListener("click", (e) => {
   if (!button) return;
   const card = button.closest(".category");
 
+  // opening and closing the import box isn't an edit
+  if (button.classList.contains("paste-tasks")) {
+    const box = card.querySelector(".paste-box");
+    box.hidden = false;
+    box.querySelector(".paste-text").focus();
+    return;
+  }
+  if (button.classList.contains("paste-cancel")) {
+    closePasteBox(card);
+    return;
+  }
+
   if (button.id === "addCategory") {
     const newCard = renderCategory(newCategory());
     categoriesEl.append(newCard);
@@ -225,6 +239,8 @@ form.addEventListener("click", (e) => {
     const li = renderTask({ title: "", big: false });
     card.querySelector(".task-list").append(li);
     li.querySelector(".task-title").focus();
+  } else if (button.classList.contains("paste-add")) {
+    if (!importTasks(card)) return;
   } else if (button.classList.contains("remove-task")) {
     button.closest(".task").remove();
   } else if (button.classList.contains("remove-category")) {
@@ -237,6 +253,48 @@ form.addEventListener("click", (e) => {
   }
   if (card?.isConnected) refreshCategory(card);
   setDirty(true);
+});
+
+function closePasteBox(card) {
+  const box = card.querySelector(".paste-box");
+  box.querySelector(".paste-text").value = "";
+  box.hidden = true;
+}
+
+// adds one task per line from the import box, returns false if there was nothing to add
+function importTasks(card) {
+  const text = card.querySelector(".paste-text").value;
+  // real line breaks, or a literal "\n" typed as text
+  const titles = text
+    .split(/\r?\n|\\n/)
+    .map((line) => line.trim())
+    .filter(Boolean); // duplicates are kept, they make a task more likely
+  if (titles.length === 0) return false;
+
+  const list = card.querySelector(".task-list");
+  // drop empty rows so the imported tasks don't sit under a blank one
+  for (const input of list.querySelectorAll(".task-title")) {
+    if (!input.value.trim()) input.closest(".task").remove();
+  }
+  list.append(...titles.map((title) => renderTask({ title, big: false })));
+  closePasteBox(card);
+  return true;
+}
+
+form.addEventListener("keydown", (e) => {
+  // Ctrl+Enter (Cmd+Enter on Mac) in the import box adds the tasks
+  if (
+    e.key === "Enter" &&
+    (e.ctrlKey || e.metaKey) &&
+    e.target.classList.contains("paste-text")
+  ) {
+    e.preventDefault();
+    const card = e.target.closest(".category");
+    if (importTasks(card)) {
+      refreshCategory(card);
+      setDirty(true);
+    }
+  }
 });
 
 // Enter in a task name adds a new task below it instead of submitting the form

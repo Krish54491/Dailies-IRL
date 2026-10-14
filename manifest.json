@@ -4,7 +4,7 @@
   "description": "Ever wanted randomized quests in real life? Look no further this extension allows you to customize google tasks to give you scheduled random quests!",
   "version": "1.0",
   "action": {
-    "default_icon": "Daily Quest Icon.png",
+    "default_icon": "Dailies IRL Extension Logo.png",
     "default_popup": "window.html"
   },
   "options_ui": {
