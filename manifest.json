@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Dailies IRL",
-  "description": "Ever wanted randomized quests in real life? Look no further this extension allows you to customize google tasks to give you scheduled random quests!",
+  "description": "Ever wanted randomized quests in real life? This extension allows you to customize google tasks to give you scheduled random quests!",
   "version": "1.0.0",
   "action": {
     "default_icon": "Dailies IRL Extension Logo.png",
